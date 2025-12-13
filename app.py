@@ -73,7 +73,6 @@ if selected_menu == "🏠 Beranda & Panduan":
     st.title("Selamat Datang di Palm AI")
     st.markdown("#### Sistem Cerdas Klasifikasi Kematangan Kelapa Sawit")
     st.write("---")
-    
     col1, col2 = st.columns([1.5, 1])
     
     with col1:
@@ -100,7 +99,6 @@ if selected_menu == "🏠 Beranda & Panduan":
     st.write("---")
     st.subheader("📚 Kriteria Kematangan")
     
-
     c1, c2, c3 = st.columns(3)
     
     with c1:
@@ -126,7 +124,7 @@ if selected_menu == "🏠 Beranda & Panduan":
             <p>Warna merah tua pudar atau coklat. Banyak buah lepas. Kadar Asam Lemak Bebas (ALB) tinggi.</p>
         </div>
         """, unsafe_allow_html=True)
-
+        
 elif selected_menu == "📷 Mulai Deteksi":
     col_title, col_stat = st.columns([3,1])
     with col_title:
@@ -137,7 +135,7 @@ elif selected_menu == "📷 Mulai Deteksi":
     st.write("---")
     
     col_left, col_right = st.columns([1, 1.2], gap="large")
-
+    
     with col_left:
         st.subheader("📷 Unggah Foto")
         file_upload = st.file_uploader("Format: JPG, PNG", type=["jpg", "png", "jpeg"])
@@ -169,7 +167,7 @@ elif selected_menu == "📷 Mulai Deteksi":
                 normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
                 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
                 data[0] = normalized_image_array
-
+                
                 prediction = model.predict(data)
                 index = np.argmax(prediction)
                 confidence = prediction[0][index]
