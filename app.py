@@ -4,7 +4,7 @@ from PIL import Image, ImageOps
 import numpy as np
 
 st.set_page_config(
-    page_title="Palm AI Pro",
+    page_title="Palm AI",
     page_icon="🌴",
     layout="wide",
     initial_sidebar_state="expanded"
