@@ -3,7 +3,6 @@ import tf_keras as keras
 from PIL import Image, ImageOps
 import numpy as np
 
-# --- 1. KONFIGURASI HALAMAN ---
 st.set_page_config(
     page_title="Palm AI Pro",
     page_icon="🌴",
@@ -11,7 +10,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. CSS DARK MODE & STYLING ---
 st.markdown("""
     <style>
     /* Global Styles */
@@ -51,18 +49,15 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. LOAD MODEL ---
 @st.cache_resource
 def load_model():
     model = keras.models.load_model("keras_model.h5", compile=False)
     return model
 
-# --- 4. NAVIGASI SIDEBAR ---
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/1598/1598196.png", width=80)
-    st.title("Palm AI Pro")
+    st.title("Palm AI")
     
-    # Menu Pilihan
     selected_menu = st.radio(
         "Navigasi Menu:",
         ["🏠 Beranda & Panduan", "📷 Mulai Deteksi"],
@@ -73,17 +68,12 @@ with st.sidebar:
     st.info("💡 **Status Sistem:** Online")
     st.caption("© 2025 Palm Tech Solutions")
 
-# =========================================
-# HALAMAN 1: BERANDA (HOME PAGE)
-# =========================================
 if selected_menu == "🏠 Beranda & Panduan":
     
-    # Header Hero
     st.title("Selamat Datang di Palm AI")
     st.markdown("#### Sistem Cerdas Klasifikasi Kematangan Kelapa Sawit")
     st.write("---")
     
-    # Kolom Penjelasan
     col1, col2 = st.columns([1.5, 1])
     
     with col1:
@@ -100,7 +90,6 @@ if selected_menu == "🏠 Beranda & Panduan":
         st.info("💡 **Tips Akurasi:** Pastikan foto diambil dari jarak dekat, pencahayaan cukup, dan hanya menampilkan satu tandan buah.")
 
     with col2:
-        # Menampilkan gambar ilustrasi atau placeholder
         st.markdown("""
         <div class="info-card" style="text-align:center;">
             <h3>🎯 Teknologi AI</h3>
@@ -111,7 +100,7 @@ if selected_menu == "🏠 Beranda & Panduan":
     st.write("---")
     st.subheader("📚 Kriteria Kematangan")
     
-    # 3 Kolom Kriteria (Info Cards)
+
     c1, c2, c3 = st.columns(3)
     
     with c1:
@@ -138,22 +127,17 @@ if selected_menu == "🏠 Beranda & Panduan":
         </div>
         """, unsafe_allow_html=True)
 
-# =========================================
-# HALAMAN 2: SCANNER (DETEKSI)
-# =========================================
 elif selected_menu == "📷 Mulai Deteksi":
-    
     col_title, col_stat = st.columns([3,1])
     with col_title:
         st.title("Scanner Kualitas Sawit")
     with col_stat:
-        st.write("") # Spacer
+        st.write("")
 
     st.write("---")
     
     col_left, col_right = st.columns([1, 1.2], gap="large")
 
-    # --- INPUT ---
     with col_left:
         st.subheader("📷 Unggah Foto")
         file_upload = st.file_uploader("Format: JPG, PNG", type=["jpg", "png", "jpeg"])
@@ -163,7 +147,6 @@ elif selected_menu == "📷 Mulai Deteksi":
             st.markdown('<style>img {border-radius: 12px; border: 2px solid #555;}</style>', unsafe_allow_html=True)
             st.image(image, caption="Gambar Input", use_container_width=True)
 
-    # --- OUTPUT ---
     with col_right:
         st.subheader("📊 Hasil Analisa")
         
@@ -180,7 +163,6 @@ elif selected_menu == "📷 Mulai Deteksi":
             try:
                 model = load_model()
                 
-                # PRE-PROCESS
                 size = (224, 224)
                 image_resized = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
                 image_array = np.asarray(image_resized)
@@ -188,14 +170,12 @@ elif selected_menu == "📷 Mulai Deteksi":
                 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
                 data[0] = normalized_image_array
 
-                # PREDICT
                 prediction = model.predict(data)
                 index = np.argmax(prediction)
                 confidence = prediction[0][index]
                 
                 labels = ["Mentah (Unripe)", "Matang (Ripe)", "Lewat Matang (Overripe)", "⛔ Bukan Sawit"]
 
-                # LOGIC
                 if index == 3:
                     bg_color = "#37474F"
                     status = "TIDAK DIKENALI"
@@ -223,8 +203,6 @@ elif selected_menu == "📷 Mulai Deteksi":
                         desc = "Segera angkut ke pabrik."
                         icon = "⚠️"
 
-                # RESULT CARD
-                # Untuk teks hitam pada background kuning (Lewat Matang)
                 text_col = "#212121" if index == 2 and confidence >= 0.65 else "#FFFFFF"
 
                 st.markdown(f"""
@@ -237,7 +215,6 @@ elif selected_menu == "📷 Mulai Deteksi":
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # STATS
                 with st.expander("📊 Lihat Detail Probabilitas"):
                     for i, label in enumerate(labels):
                         if i < 3 or index == 3:
