@@ -12,17 +12,13 @@ st.set_page_config(
 
 st.markdown("""
     <style>
-    /* Global Styles */
     [data-testid="stAppViewContainer"] { background-color: #0E1117; color: #FAFAFA; }
     [data-testid="stSidebar"] { background-color: #262730; border-right: 1px solid #464B5C; }
     
-    /* Font */
     html, body, h1, h2, h3, p, li { font-family: 'Segoe UI', sans-serif; color: #FAFAFA !important; }
     
-    /* Tombol Navigasi Sidebar */
     .stRadio > div { background-color: #262730; padding: 10px; border-radius: 10px; }
     
-    /* Card Styling */
     .info-card {
         background-color: #1E1E1E;
         padding: 20px;
@@ -33,7 +29,6 @@ st.markdown("""
     }
     .info-card:hover { transform: scale(1.02); border-color: #00C853; }
     
-    /* Result Card (Scanner) */
     .result-card {
         padding: 30px;
         border-radius: 20px;
@@ -42,7 +37,6 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
     
-    /* Custom Button */
     .stButton>button {
         background-color: #00C853; color: white; border-radius: 10px; border: none; font-weight: bold;
     }
